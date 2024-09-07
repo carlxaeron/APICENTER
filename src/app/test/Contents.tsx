@@ -21,13 +21,21 @@ export default function Contents() {
   // Function to increment count in Firestore
   const incrementCount = () => {
     const docRef = doc(db, "counts", "counter");
-    updateDoc(docRef, { count: count + 1 })
-      .then(() => {
-        setCount(count + 1);
-      })
-      .catch((error) => {
-        console.error("Error updating count: ", error);
-      });
+    let cnt = count;
+    getDoc(doc(db, "counts", "counter")).then((doc) => {
+      if(doc.exists()) {
+        cnt = doc.data().count;
+        setCount(cnt);
+
+        updateDoc(docRef, { count: cnt + 1 })
+          .then(() => {
+            setCount(cnt + 1);
+          })
+          .catch((error) => {
+            console.error("Error updating count: ", error);
+          });
+      } else console.error("Document not found"); 
+    });
   };
 
   return (
