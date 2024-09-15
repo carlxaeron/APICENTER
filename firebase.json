@@ -10,7 +10,7 @@
       {
         "source": "/test",
         "destination": "/test/index.html"
-      }
+      },
     ]
   }
 }
